@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+    
+
+<div class="unpop-modal group-setting-modal ng-scope" style="z-index: 100;">
+    <div class="group-setting-header head">
+        <span class="title ng-binding">群设置</span>
+        <i class="close iconfont unpop-modal-close-btn"></i>
+    </div>
+    <div class="group-setting-container body settings ng-isolate-scope" infinite-scroll="" infinite-scroll-bottom="groupSetting.showMoreMembers()" infinite-scroll-threshold="60">
+        <div class="group-setting-row">
+            <span class="ng-binding">群名称：</span>
+            <!-- ngIf: !groupSetting.isEditGroupTitle --><span ng-if="!groupSetting.isEditGroupTitle" class="ng-scope">
+				<span class="group-setting-title ng-binding" ng-bind-html="groupSetting.groupTitle">客户端</span>
+            <!-- ngIf: groupSetting.hasEditTitleAuthority -->
+            </span><!-- end ngIf: !groupSetting.isEditGroupTitle -->
+            <!-- ngIf: groupSetting.isEditGroupTitle -->
+        </div>
+        <!-- ngIf: groupSetting.canConvSearch && groupSetting.conv.baseConversation.searchableModel.groupId -->
+        <!-- ngIf: groupSetting.isOwner -->
+        <!-- ngIf: groupSetting.isOrdinaryOrCompany --><div class="group-setting-row ng-scope" ng-if="groupSetting.isOrdinaryOrCompany">
+            <span class="ng-binding">群主：</span>
+            <span class="group-boss-name ng-binding" ng-bind-html="groupSetting.ownerName">余来志</span>
+            <!-- ngIf: groupSetting.isOwner -->
+        </div><!-- end ngIf: groupSetting.isOrdinaryOrCompany -->
+        <!-- ngIf: groupSetting.isCompanyGroup || groupSetting.isOwner && groupSetting.isOrgUser && !groupSetting.conv.baseConversation.extension.ids --><div class="setting-item group-setting-row ng-scope" ng-if="groupSetting.isCompanyGroup || groupSetting.isOwner &amp;&amp; groupSetting.isOrgUser &amp;&amp; !groupSetting.conv.baseConversation.extension.ids">
+            <!-- ngIf: groupSetting.isCompanyGroup --><i ng-if="groupSetting.isCompanyGroup" class="icon-company ng-scope icon-dept-company" ng-class="{'icon-dept-company':groupSetting.conv.isDeptGroup ,'icon-all-user-company': groupSetting.conv.isAllUserGroup, 'icon-group-mrg': groupSetting.conv.isMrgGroup, 'icon-en': groupSetting.isEN}"></i><!-- end ngIf: groupSetting.isCompanyGroup -->
+            <span class="rem ng-binding">
+            内部群
+				<!-- ngIf: groupSetting.isCompanyGroup && groupSetting.orgName --><span ng-if="groupSetting.isCompanyGroup &amp;&amp; groupSetting.orgName" class="org-name-rem ng-binding ng-scope" title="传易互联（深圳）有限公司">（传易互联（深圳）有限公司）</span><!-- end ngIf: groupSetting.isCompanyGroup && groupSetting.orgName -->
+            </span>
+            <div ng-show="!groupSetting.conv.baseConversation.extension.deptId &amp;&amp; groupSetting.isOwner &amp;&amp; groupSetting.isOrgUser &amp;&amp; !groupSetting.isCompanyGroup" class="toggle ng-pristine ng-untouched ng-valid ng-isolate-scope checked ng-not-empty ng-hide" dd-checkbox="" ng-model="groupSetting.isCompanyGroup" checked="groupSetting.convertToOrgGroup">
+                <label></label>
+            </div>
+            <!-- ngIf: groupSetting.conv.baseConversation.extension.deptId --><div ng-if="groupSetting.conv.baseConversation.extension.deptId" class="group-tip ng-binding ng-scope">该部门群已关联，新人加入会自动加入该群。该功能由管理员设置。</div><!-- end ngIf: groupSetting.conv.baseConversation.extension.deptId -->
+        </div><!-- end ngIf: groupSetting.isCompanyGroup || groupSetting.isOwner && groupSetting.isOrgUser && !groupSetting.conv.baseConversation.extension.ids -->
+        <!-- ngIf: groupSetting.conv.baseConversation.extension.ids -->
+        <div class="setting-item group-setting-row">
+            <span class="rem ng-binding">消息免打扰：</span>
+            <div class="toggle ng-pristine ng-untouched ng-valid ng-isolate-scope ng-not-empty" dd-checkbox="" ng-model="groupSetting.conv.notificationOff" checked="groupSetting.updateNotificationOff" unchecked="groupSetting.updateNotificationOff">
+                <label></label>
+            </div>
+        </div>
+        <div class="setting-item group-setting-row">
+            <span class="rem ng-binding">群置顶：</span>
+            <div class="toggle ng-pristine ng-untouched ng-valid ng-isolate-scope ng-not-empty" dd-checkbox="" ng-model="groupSetting.isPin" checked="groupSetting.updateIsTop" unchecked="groupSetting.updateIsTop">
+                <label></label>
+            </div>
+        </div>
+        <!-- ngIf: groupSetting.canShowConvSearch -->
+        <!-- ngIf: groupSetting.isOwner&&!groupSetting.isGroupStrictOpen -->
+
+        <!-- ngIf: groupSetting.isOwner -->
+        <!-- ngIf: !groupSetting.isSafetyOpen && groupSetting.isCompanyGroup --><div class="setting-item group-setting-row safety-setting ng-scope" ng-if="!groupSetting.isSafetyOpen &amp;&amp; groupSetting.isCompanyGroup">
+            <div class="header">
+                <span class="rem ng-binding">第三方加密</span>
+                <div class="group-setting-safety-section" ng-click="groupSetting.openSafetyOrg()">
+                    <i class="icon-grey-safety"></i>
+                    <span class="safety-setting-close-text ng-binding">未开通</span>
+                    <i class="iconfont jiantou"></i>
+                </div>
+            </div>
+            <div class="desc ng-binding">
+                此聊天中的消息未被第三方加密，点击查看详情。
+            </div>
+        </div><!-- end ngIf: !groupSetting.isSafetyOpen && groupSetting.isCompanyGroup -->
+        <!-- ngIf: groupSetting.isSafetyOpen -->
+
+        <!-- ngIf: groupSetting.isOwner && groupSetting.isCompanyGroup && groupSetting.orgId -->
+
+        <!-- ngIf: groupSetting.showExpandGroup -->
+
+        <!-- ngIf: groupSetting.isOrdinaryOrCompany --><div class="group-setting-person-box ng-scope" ng-if="groupSetting.isOrdinaryOrCompany">
+            <div class="setting-item group-setting-row">
+                <!-- ngIf: groupSetting.isShowGetMemberLoading -->
+                <span class="group-member-info" ng-hide="groupSetting.matcher.isOpen">
+                    <span class="ng-binding">群成员：</span>
+                <!-- ngIf: !groupSetting.isHideMembers --><span ng-if="!groupSetting.isHideMembers" class="ng-binding ng-scope">4 人</span><!-- end ngIf: !groupSetting.isHideMembers -->
+                <!-- ngIf: !groupSetting.isGroupStrictOpen&&(!groupSetting.isOnlyOwnerHasAuthority||(groupSetting.isOnlyOwnerHasAuthority&&groupSetting.isOwner)) -->
+                </span>
+                <div class="search-toggle">
+                    <div class="search-input ng-isolate-scope" placeholder="groupSetting.TEXT.pc_groupsetting_search_member" on-search="groupSetting.matcher.onSearch(keyword)" is-open="groupSetting.matcher.isOpen" on-open="groupSetting.onOpenSearchInput()" prevent-close-selectors="groupSetting.matcher.preventCloseSelectors">
+    <div class="search-input-container" ng-class="{ 'active': isOpen }">
+        <input ng-model="searchInput.keyword" placeholder="搜索群成员" class="ng-pristine ng-untouched ng-valid ng-empty" type="text">
+    </div>
+    <div class="search-input-icon">
+        <i class="remove-icon iconfont ng-hide" ng-show="searchInput.keyword.length > 0" ng-click="searchInput.clear()"></i>
+        <i class="search-icon iconfont" ng-click="searchInput.toggle()"></i>
+    </div>
+</div>
+                </div>
+            </div>
+            <!-- ngIf: groupSetting.showHistoryType && !groupSetting.isOwner -->
+            <div class="group-setting-person clearfix">
+                <div class="group-setting-people-filler ng-hide" ng-hide="groupSetting.showMemberOpenIds.length || !groupSetting.isInMatchMode">
+                    <div class="panel-filler-icon">
+                        <i class="contact-icon iconfont"></i>
+                    </div>
+                    <p class="panel-filler-text ng-binding"> 没有搜索到任何联系人 </p>
+                </div>
+                <!-- ngRepeat: openId in  groupSetting.showMemberOpenIds track by openId --><div class="group-setting-people ng-scope" ng-repeat="openId in  groupSetting.showMemberOpenIds track by openId" ng-click="groupSetting.showProfile($event, openId)">
+                    <div class="normal user-avatar ng-isolate-scope" uid="367904355" style="background-color: rgb(179, 137, 121);"><div class="avatar-text">ke</div></div>
+                    <user-name uid="openId" cid="groupSetting.conv.convId" scene="groupSetting.userNameScene" class="ng-isolate-scope"><span title="余来志" ng-bind-html="$ctrl.displayName" class="ng-binding">余来志</span>
+</user-name>
+                    <!-- ngIf: groupSetting.isOwner && groupSetting.myUid!=openId && !groupSetting.isGroupStrictOpen -->
+                </div><!-- end ngRepeat: openId in  groupSetting.showMemberOpenIds track by openId --><div class="group-setting-people ng-scope" ng-repeat="openId in  groupSetting.showMemberOpenIds track by openId" ng-click="groupSetting.showProfile($event, openId)">
+                    <div class="normal user-avatar ng-isolate-scope" uid="367889512" style="background-image: url(&quot;https://static.dingtalk.com/media/lADPBbCc1S3B1ezNBLnNBNo_1242_1209.jpg_60x60q90.jpg&quot;);"></div>
+                    <user-name uid="openId" cid="groupSetting.conv.convId" scene="groupSetting.userNameScene" class="ng-isolate-scope"><span title="马庆毅" ng-bind-html="$ctrl.displayName" class="ng-binding">马庆毅</span>
+</user-name>
+                    <!-- ngIf: groupSetting.isOwner && groupSetting.myUid!=openId && !groupSetting.isGroupStrictOpen -->
+                </div><!-- end ngRepeat: openId in  groupSetting.showMemberOpenIds track by openId --><div class="group-setting-people ng-scope" ng-repeat="openId in  groupSetting.showMemberOpenIds track by openId" ng-click="groupSetting.showProfile($event, openId)">
+                    <div class="normal user-avatar ng-isolate-scope" uid="56071978" style="background-image: url(&quot;https://static.dingtalk.com/media/lADPBbCc1XNGLmTNAmrNAn4_638_618.jpg_60x60q90.jpg&quot;);"></div>
+                    <user-name uid="openId" cid="groupSetting.conv.convId" scene="groupSetting.userNameScene" class="ng-isolate-scope"><span title="徐申龙" ng-bind-html="$ctrl.displayName" class="ng-binding">徐申龙</span>
+</user-name>
+                    <!-- ngIf: groupSetting.isOwner && groupSetting.myUid!=openId && !groupSetting.isGroupStrictOpen -->
+                </div><!-- end ngRepeat: openId in  groupSetting.showMemberOpenIds track by openId --><div class="group-setting-people ng-scope" ng-repeat="openId in  groupSetting.showMemberOpenIds track by openId" ng-click="groupSetting.showProfile($event, openId)">
+                    <div class="normal user-avatar ng-isolate-scope" uid="44410009" style="background-color: rgb(77, 169, 235);"><div class="avatar-text">明南</div></div>
+                    <user-name uid="openId" cid="groupSetting.conv.convId" scene="groupSetting.userNameScene" class="ng-isolate-scope"><span title="陈明南" ng-bind-html="$ctrl.displayName" class="ng-binding">陈明南</span>
+</user-name>
+                    <!-- ngIf: groupSetting.isOwner && groupSetting.myUid!=openId && !groupSetting.isGroupStrictOpen -->
+                </div><!-- end ngRepeat: openId in  groupSetting.showMemberOpenIds track by openId -->
+                <!-- ngIf: groupSetting.isShowLoading -->
+            </div>
+        </div><!-- end ngIf: groupSetting.isOrdinaryOrCompany -->
+    </div>
+    <!-- ngIf: groupSetting.isOrdinaryOrCompany&&!groupSetting.isGroupStrictOpen --><div class="foot group-setting-footer ng-scope" ng-if="groupSetting.isOrdinaryOrCompany&amp;&amp;!groupSetting.isGroupStrictOpen">
+        <button class="group-setting-quit-btn red ng-binding" ng-click="groupSetting.quit($event)">退出群聊</button>
+        <!-- ngIf: groupSetting.isOwner && !groupSetting.conv.baseConversation.extension.deptId -->
+    </div><!-- end ngIf: groupSetting.isOrdinaryOrCompany&&!groupSetting.isGroupStrictOpen -->
+</div>
+</body>
+</html>>
